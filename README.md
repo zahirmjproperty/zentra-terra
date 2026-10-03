@@ -35,5 +35,11 @@ Bilingual **Bahasa Melayu Malaysia (default) + English**, toggled in-page (BM/EN
 4. Flip `noindex` → index, submit `sitemap.xml`, register in `pantau_https_zentra.py` + `bina_dash_index.py`.
 5. Delete path = remove repo + DNS record (nothing else references it).
 
-## Status
-Preview live and verified (bilingual, VR modal loads the live ZENTRA tour). Not yet published to production.
+## Status — LIVE (published 3 Oct 2026, approved by Zahir)
+**https://terra.project.zentrapropertygroup.com/** — HTTP 200, HTTPS enforced, cert `terra.project.zentrapropertygroup.com`,
+`index,follow` + sitemap submitted, registered in `pantau_https_zentra.py` and `bina_dash_index.py`.
+Verified live: 4 tour cards, no broken images, VR modal loads the real ZENTRA tour.
+
+## Remove (if the project sells out)
+Delete the GitHub repo `zahirmjproperty/zentra-terra` + the Porkbun CNAME record
+`terra.project` → `zahirmjproperty.github.io`. Nothing else references it.
