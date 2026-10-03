@@ -21,7 +21,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="preload" as="image" href="assets/img/hero-day.jpg">
-<link rel="stylesheet" href="assets/style.css?v=a012b1b2">
+<link rel="stylesheet" href="assets/style.css?v=871e388a">
 </head>
 <body data-page="home">
 <a class="skip" href="#main" data-i18n="skip">Langkau ke kandungan</a>
@@ -131,17 +131,93 @@
     </div>
   </section>
 
-  <!-- ENQUIRE -->
+  <!-- ENQUIRE + BORANG DAFTAR MINAT -->
   <section class="section dark enquire" id="enquire">
     <div class="wrap">
-      <span class="eyebrow" data-i18n="enqEyebrow">Pemasaran &amp; jualan oleh Mr Tanah</span>
-      <h2 data-i18n="enqHead">Bab seterusnya anda<br>bermula dengan perbualan.</h2>
-      <p data-i18n="enqBody">Tanya tentang unit tersedia, harga semasa dan temujanji lawatan di TERRA Residences.</p>
-      <div class="actions">
-        <a class="btn gold contact" href="https://mrtanah.com/" data-i18n="enqBtn">WhatsApp Mr Tanah ↗</a>
-        <a class="btn ghost-dark" href="#vr" data-i18n="enqBtnVr">Jelajahi lawatan maya</a>
+      <div class="enq-grid">
+        <div class="enq-copy">
+          <span class="eyebrow" data-i18n="enqEyebrow">Pemasaran &amp; jualan oleh Mr Tanah</span>
+          <h2 data-i18n="enqHead">Bab seterusnya anda<br>bermula dengan perbualan.</h2>
+          <p data-i18n="enqBody">Tanya tentang unit tersedia, harga semasa dan temujanji lawatan di TERRA Residences.</p>
+          <div class="actions">
+            <a class="btn gold contact" href="https://mrtanah.com/" data-i18n="enqBtn">WhatsApp Mr Tanah ↗</a>
+            <a class="btn ghost-dark" href="#vr" data-i18n="enqBtnVr">Jelajahi lawatan maya</a>
+          </div>
+          <p class="wa-note">Mr Tanah · <span class="contact-display">016-311 9076</span></p>
+        </div>
+
+        <div class="enq-form-card">
+          <h3 data-i18n="formHead">Daftar minat anda</h3>
+          <p class="form-sub" data-i18n="formSub">Tinggalkan butiran — kami hubungi anda dengan maklumat unit dan aturan lawatan.</p>
+
+          <form id="leadForm" novalidate>
+            <div class="field">
+              <label for="lf-nama" data-i18n="fNama">Nama penuh</label>
+              <input id="lf-nama" name="nama" type="text" required autocomplete="name" maxlength="120"
+                     data-i18n-ph="fNamaPh" placeholder="Nama anda">
+              <span class="err" data-err="nama"></span>
+            </div>
+
+            <div class="field">
+              <label for="lf-wa" data-i18n="fWa">No. WhatsApp</label>
+              <input id="lf-wa" name="wa" type="tel" required autocomplete="tel" inputmode="tel" maxlength="20"
+                     data-i18n-ph="fWaPh" placeholder="0123456789">
+              <span class="err" data-err="wa"></span>
+            </div>
+
+            <div class="field">
+              <label for="lf-emel" data-i18n="fEmel">Emel</label>
+              <input id="lf-emel" name="emel" type="email" autocomplete="email" maxlength="160"
+                     data-i18n-ph="fEmelPh" placeholder="nama@emel.com">
+              <span class="err" data-err="emel"></span>
+            </div>
+
+            <div class="field">
+              <label for="lf-negeri" data-i18n="fNegeri">Negeri</label>
+              <select id="lf-negeri" name="negeri">
+                <option value="" data-i18n="fPilih">— pilih —</option>
+              </select>
+              <span class="err" data-err="negeri"></span>
+            </div>
+
+            <fieldset class="field field-units">
+              <legend data-i18n="fUnit">Unit yang diminati</legend>
+              <div class="units" id="lf-units"></div>
+              <span class="err" data-err="unit"></span>
+            </fieldset>
+
+            <div class="field">
+              <label for="lf-sumber" data-i18n="fSumber">Bagaimana anda tahu tentang kami?</label>
+              <select id="lf-sumber" name="sumber">
+                <option value="" data-i18n="fPilih">— pilih —</option>
+              </select>
+              <span class="err" data-err="sumber"></span>
+            </div>
+
+            <div class="field field-check">
+              <label class="chk">
+                <input type="checkbox" id="lf-consent" name="consent" required>
+                <span data-i18n="fConsent">Saya bersetuju dan memberi kebenaran kepada <b>Mr Tanah</b> (jenama ZENTRA) mengumpul, menggunakan, memproses dan menyimpan data peribadi saya dalam borang ini bagi tujuan mengendalikan pertanyaan, permintaan maklumat dan pentadbiran dalaman, selaras dengan <b>Akta Perlindungan Data Peribadi 2010</b>.</span>
+              </label>
+              <span class="err" data-err="consent"></span>
+            </div>
+
+            <div class="field field-check">
+              <label class="chk">
+                <input type="checkbox" id="lf-marketing" name="marketing">
+                <span data-i18n="fMarketing">Saya bersetuju menerima kemas kini, berita dan senarai hartanah daripada Mr Tanah melalui emel, WhatsApp atau panggilan telefon.</span>
+              </label>
+            </div>
+
+            <div class="hp" aria-hidden="true">
+              <label>Website<input type="text" name="website" tabindex="-1" autocomplete="off"></label>
+            </div>
+
+            <button class="btn primary submit" type="submit" data-i18n="fHantar">Hantar</button>
+            <p class="form-status" id="lf-status" role="status" aria-live="polite"></p>
+          </form>
+        </div>
       </div>
-      <p class="wa-note">Mr Tanah · <span class="contact-display">016-311 9076</span></p>
     </div>
   </section>
 
@@ -179,7 +255,7 @@
   </div>
 </dialog>
 
-<script defer src="data/project.js?v=a012b1b2"></script>
-<script defer src="assets/app.js?v=a012b1b2"></script>
+<script defer src="data/project.js?v=871e388a"></script>
+<script defer src="assets/app.js?v=871e388a"></script>
 </body>
 </html>

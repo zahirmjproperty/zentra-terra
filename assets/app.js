@@ -278,6 +278,135 @@
     });
   }
 
+  /* ---------- Borang daftar minat (TERRA) ---------- */
+  var WA_RE = /^0?1\d{8,9}$/;
+  var EM_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+  function setErr(form, name, msg) {
+    var f = form.querySelector('.field [name="' + name + '"]');
+    var box = f && f.closest('.field');
+    var e = form.querySelector('[data-err="' + name + '"]');
+    if (box) box.classList.toggle('invalid', !!msg);
+    if (e) e.textContent = msg || '';
+  }
+
+  function buildForm() {
+    var form = document.querySelector('#leadForm');
+    if (!form || !D.form) return;
+
+    // Unit yang diminati — checkbox
+    var ub = form.querySelector('#lf-units');
+    if (ub) {
+      var checked = [].slice.call(ub.querySelectorAll('input[name=unit]:checked')).map(function (i) { return i.value; });
+      ub.innerHTML = '';
+      D.form.units.forEach(function (u) {
+        var l = document.createElement('label');
+        l.className = 'u';
+        var i = document.createElement('input');
+        i.type = 'checkbox'; i.name = 'unit'; i.value = u.v;
+        if (checked.indexOf(u.v) >= 0) i.checked = true;
+        var s = document.createElement('span');
+        s.textContent = (u[lang] || u.en);
+        l.appendChild(i); l.appendChild(s); ub.appendChild(l);
+      });
+    }
+
+    // Negeri
+    var ns = form.querySelector('#lf-negeri');
+    if (ns) {
+      var cur = ns.value;
+      while (ns.options.length > 1) ns.remove(1);
+      D.form.states.forEach(function (st) {
+        var o = document.createElement('option');
+        o.value = st.v;                                     // nilai kanonik (BM) -> hantar ke pelayan
+        o.textContent = st[lang] || st.bm;                 // label ikut bahasa semasa
+        ns.appendChild(o);
+      });
+      ns.value = cur || '';
+    }
+
+    // Sumber
+    var ss = form.querySelector('#lf-sumber');
+    if (ss) {
+      var cur2 = ss.value;
+      while (ss.options.length > 1) ss.remove(1);
+      D.form.sources.forEach(function (s2) {
+        var o = document.createElement('option'); o.value = s2.v; o.textContent = (s2[lang] || s2.en);
+        ss.appendChild(o);
+      });
+      ss.value = cur2 || '';
+    }
+  }
+
+  function wireForm() {
+    var form = document.querySelector('#leadForm');
+    if (!form || !D.form) return;
+
+    form.addEventListener('submit', function (ev) {
+      ev.preventDefault();
+      var st = form.querySelector('#lf-status');
+      var btn = form.querySelector('button[type=submit]');
+      var nama = form.nama.value.trim();
+      var wa = form.wa.value.trim().replace(/[\s\-()]/g, '');
+      var emel = form.emel.value.trim();
+      var consent = form.consent.checked;
+      var ok = true;
+
+      ['nama', 'wa', 'emel', 'consent'].forEach(function (n) { setErr(form, n, ''); });
+      if (nama.length < 2) { setErr(form, 'nama', T('fErrNama')); ok = false; }
+      if (!WA_RE.test(wa)) { setErr(form, 'wa', T('fErrWa')); ok = false; }
+      if (emel && !EM_RE.test(emel)) { setErr(form, 'emel', T('fErrEmel')); ok = false; }
+      if (!consent) { setErr(form, 'consent', T('fErrConsent')); ok = false; }
+      if (!ok) {
+        st.className = 'form-status show bad'; st.textContent = '';
+        var first = form.querySelector('.field.invalid input');
+        if (first) first.focus();
+        return;
+      }
+
+      var units = [].slice.call(form.querySelectorAll('input[name=unit]:checked')).map(function (i) { return i.value; });
+      var payload = {
+        form: 'terra',
+        nama: nama, wa: wa, emel: emel,
+        negeri: form.negeri.value,
+        unit: units.join(', '),
+        sumber: form.sumber.value,
+        consent: true,
+        marketing: form.marketing.checked,
+        website: form.website.value,   // honeypot
+        ua: navigator.userAgent
+      };
+
+      btn.disabled = true;
+      var old = btn.textContent;
+      btn.textContent = T('fHantarSekarang');
+      st.className = 'form-status show'; st.textContent = '';
+
+      fetch(D.form.endpoint, {
+        method: 'POST',
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' },   // elak preflight CORS
+        body: JSON.stringify(payload)
+      })
+        .then(function (r) { return r.json(); })
+        .then(function (j) {
+          if (j && j.ok) {
+            st.className = 'form-status show ok';
+            st.innerHTML = T('fOk').replace('{ref}', j.ref || '') + '<br><small>' + T('fOkSub') + '</small>';
+            form.reset();
+            buildForm();
+          } else {
+            st.className = 'form-status show bad';
+            st.textContent = (j && j.mesej) ? j.mesej : T('fBad');
+          }
+        })
+        .catch(function () {
+          st.className = 'form-status show bad';
+          st.textContent = T('fFail');
+        })
+        .then(function () { btn.disabled = false; btn.textContent = T('fHantar'); });
+    });
+  }
+
   function renderAll() {
     applyStatic();
     renderTours();
@@ -287,6 +416,7 @@
     renderFaq();
     buildSwitcher();
     wireContact();
+    buildForm();
     document.querySelectorAll('.reveal').forEach(function (el) { el.classList.add('in'); });
   }
 
@@ -296,5 +426,6 @@
     wirePlanDialog();
     wireChrome();
     wireLang();
+    wireForm();
   });
 })();

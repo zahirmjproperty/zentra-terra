@@ -140,11 +140,53 @@ h3{font-size:clamp(21px,2.4vw,27px)}
   background:linear-gradient(transparent,rgba(10,21,16,.82))}
 
 /* ---------- Enquire ---------- */
+.wa-note{margin-top:20px;font-size:13px;color:rgba(255,255,255,.5)}
+
+/* ---------- Enquire + borang daftar minat ---------- */
 .enquire{text-align:center}
 .enquire h2{margin:14px auto 18px;max-width:16ch}
 .enquire p{max-width:600px;margin:0 auto 30px;color:rgba(255,255,255,.7)}
 .enquire .actions{justify-content:center}
-.wa-note{margin-top:20px;font-size:13px;color:rgba(255,255,255,.5)}
+.enq-grid{display:grid;grid-template-columns:1fr minmax(0,480px);gap:52px;align-items:start;text-align:left}
+.enq-copy{margin-top:6px}
+.enq-copy h2{margin-left:0;margin-right:0}
+.enq-copy p{margin-left:0;margin-right:0}
+.enq-copy .actions{justify-content:flex-start}
+.enq-form-card{background:#fff;border-radius:var(--radius);padding:30px 28px 26px;box-shadow:var(--shadow-soft);text-align:left}
+.enq-form-card h3{font-size:23px;color:var(--forest);margin-bottom:6px}
+.form-sub{font-size:13.5px;color:var(--muted);margin:0 0 20px;max-width:none}
+.field{margin-bottom:15px}
+.field>label,.field legend{display:block;font-size:12px;font-weight:700;letter-spacing:.04em;
+  text-transform:uppercase;color:var(--forest);margin-bottom:7px}
+.field input[type=text],.field input[type=tel],.field input[type=email],.field select{
+  width:100%;padding:11px 13px;border:1px solid rgba(10,21,16,.16);border-radius:var(--radius-sm);
+  font-family:var(--font);font-size:14.5px;color:var(--forest);background:#fff;transition:border-color .18s,box-shadow .18s}
+.field input:focus,.field select:focus{outline:none;border-color:var(--gold);box-shadow:0 0 0 3px rgba(200,169,106,.18)}
+.field.invalid input,.field.invalid select{border-color:#C0392B}
+.field .err{display:none;font-size:12px;color:#C0392B;margin-top:5px}
+.field.invalid .err{display:block}
+.field-units{border:0;padding:0;margin:0 0 15px}
+.units{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.units .u{display:flex;align-items:center;gap:9px;padding:10px 12px;border:1px solid rgba(10,21,16,.16);
+  border-radius:var(--radius-sm);font-size:14px;color:var(--forest);cursor:pointer;transition:all .18s}
+.units .u:hover{border-color:var(--gold);background:rgba(200,169,106,.07)}
+.units .u input{margin:0;accent-color:var(--gold);width:16px;height:16px}
+.field-check{margin-bottom:15px}
+.chk{display:flex;gap:10px;align-items:flex-start;font-size:12.5px;line-height:1.55;
+  color:var(--muted);text-transform:none;letter-spacing:0;font-weight:400;margin-bottom:0}
+.chk input{margin:2px 0 0;flex:0 0 auto;accent-color:var(--gold);width:16px;height:16px}
+.chk b{color:var(--forest)}
+.hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
+.submit{width:100%;justify-content:center;margin-top:4px}
+.form-status{margin:12px 0 0;font-size:13.5px;line-height:1.5;display:none}
+.form-status.show{display:block}
+.form-status.ok{color:#1E7B4F}
+.form-status.bad{color:#C0392B}
+@media(max-width:900px){
+  .enq-grid{grid-template-columns:1fr;gap:34px}
+  .enq-form-card{padding:24px 20px 22px}
+  .units{grid-template-columns:1fr}
+}
 
 /* ---------- Footer ---------- */
 footer{background:var(--forest);color:rgba(255,255,255,.6);padding:56px 0 40px;border-top:1px solid var(--hair-dark)}

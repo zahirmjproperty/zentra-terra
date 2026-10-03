@@ -41,6 +41,50 @@ window.TERRA = {
       en: { label: "Type C", desc: "A studio with living, kitchen, a study area and the master suite." } }
   ],
 
+  /* ============ BORANG DAFTAR MINAT (borang → Apps Script → tab Lead TERRA) ============
+     Webhook: portal Mr Tanah (ZMPBorang.gs, form:"terra" → ZMPTerra.gs). Bukan rahsia.
+     Semua nilai di sini dihantar sebagaimana — label pemapar, bukan kod dalaman. */
+  form: {
+    endpoint: "https://script.google.com/macros/s/AKfycbwafaViIuCpc-Q0XnUpSHgkKVTFcyfPProf0GvSi9C-L22hUsZ_NA-03wXjd2F-GRIS/exec",
+    units: [
+      { v: "Type A2",     bm: "Type A2",     en: "Type A2" },
+      { v: "Type B1",     bm: "Type B1",     en: "Type B1" },
+      { v: "Type C",      bm: "Type C",      en: "Type C" },
+      { v: "Belum pasti", bm: "Belum pasti", en: "Not sure yet" }
+    ],
+    // Nilai yang DIHANTAR mesti sama dgn TERRA_STATES di ZMPTerra.gs ("Luar Malaysia" = kanonik).
+    states: [
+      { v: "Johor",            bm: "Johor",            en: "Johor" },
+      { v: "Kedah",            bm: "Kedah",            en: "Kedah" },
+      { v: "Kelantan",         bm: "Kelantan",         en: "Kelantan" },
+      { v: "Melaka",           bm: "Melaka",           en: "Melaka" },
+      { v: "Negeri Sembilan",  bm: "Negeri Sembilan",  en: "Negeri Sembilan" },
+      { v: "Pahang",           bm: "Pahang",           en: "Pahang" },
+      { v: "Perak",            bm: "Perak",            en: "Perak" },
+      { v: "Perlis",           bm: "Perlis",           en: "Perlis" },
+      { v: "Penang",           bm: "Penang",           en: "Penang" },
+      { v: "Sabah",            bm: "Sabah",            en: "Sabah" },
+      { v: "Sarawak",          bm: "Sarawak",          en: "Sarawak" },
+      { v: "Selangor",         bm: "Selangor",         en: "Selangor" },
+      { v: "Terengganu",       bm: "Terengganu",       en: "Terengganu" },
+      { v: "W.P. Kuala Lumpur",bm: "W.P. Kuala Lumpur",en: "W.P. Kuala Lumpur" },
+      { v: "W.P. Labuan",      bm: "W.P. Labuan",      en: "W.P. Labuan" },
+      { v: "W.P. Putrajaya",   bm: "W.P. Putrajaya",   en: "W.P. Putrajaya" },
+      { v: "Luar Malaysia",    bm: "Luar Malaysia",    en: "Outside Malaysia" }
+    ],
+    sources: [
+      { v: "WhatsApp",    bm: "WhatsApp",          en: "WhatsApp" },
+      { v: "Facebook",    bm: "Facebook",          en: "Facebook" },
+      { v: "Instagram",   bm: "Instagram",         en: "Instagram" },
+      { v: "TikTok",      bm: "TikTok",            en: "TikTok" },
+      { v: "Google",      bm: "Carian Google",     en: "Google search" },
+      { v: "Laman web",   bm: "Laman web ini",     en: "This website" },
+      { v: "Ejen/Rakan",  bm: "Ejen / rakan",      en: "Agent / friend" },
+      { v: "Papan iklan", bm: "Papan iklan / banner", en: "Billboard / banner" },
+      { v: "Lain-lain",   bm: "Lain-lain",         en: "Other" }
+    ]
+  },
+
   layouts: [
     { name: "Type A2", plan: "assets/img/floorplan-terra-a2.png", tours: ["terra-a2-main", "terra-a2-dual"] },
     { name: "Type B1", plan: "assets/img/floorplan-terra-b1.png", tours: ["terra-b1"] },
@@ -95,6 +139,26 @@ window.TERRA = {
       enqBody: "Tanya tentang unit tersedia, harga semasa dan temujanji lawatan di TERRA Residences.",
       enqBtn: "WhatsApp Mr Tanah ↗", enqBtnFallback: "Lawati Mr Tanah untuk bertanya ↗",
       enqBtnVr: "Jelajahi lawatan maya",
+      // --- Borang daftar minat ---
+      formHead: "Daftar minat anda",
+      formSub: "Tinggalkan butiran — kami hubungi anda dengan maklumat unit dan aturan lawatan.",
+      fNama: "Nama penuh", fNamaPh: "Nama anda",
+      fWa: "No. WhatsApp", fWaPh: "0123456789",
+      fEmel: "Emel", fEmelPh: "nama@emel.com",
+      fNegeri: "Negeri", fPilih: "— pilih —",
+      fUnit: "Unit yang diminati",
+      fSumber: "Bagaimana anda tahu tentang kami?",
+      fConsent: "Saya bersetuju dan memberi kebenaran kepada <b>Mr Tanah</b> (jenama ZENTRA) mengumpul, menggunakan, memproses dan menyimpan data peribadi saya dalam borang ini bagi tujuan mengendalikan pertanyaan, permintaan maklumat dan pentadbiran dalaman, selaras dengan <b>Akta Perlindungan Data Peribadi 2010</b>.",
+      fMarketing: "Saya bersetuju menerima kemas kini, berita dan senarai hartanah daripada Mr Tanah melalui emel, WhatsApp atau panggilan telefon.",
+      fHantar: "Hantar", fHantarSekarang: "Menghantar…",
+      fErrNama: "Sila masukkan nama anda.",
+      fErrWa: "No. WhatsApp tidak sah (cth 0123456789).",
+      fErrEmel: "Emel tidak sah.",
+      fErrConsent: "Kebenaran PDPA diperlukan sebelum kami boleh simpan maklumat anda.",
+      fOk: "Terima kasih! Permintaan anda diterima. Rujukan: {ref}",
+      fOkSub: "Kami akan hubungi anda dalam masa 24 jam (waktu pejabat).",
+      fBad: "Maaf, penghantaran gagal. Sila cuba lagi atau WhatsApp kami terus.",
+      fFail: "Tidak dapat hubungi pelayan. Semak sambungan anda dan cuba lagi.",
       footBrand: "Mr Tanah · Jenama ZENTRA",
       footRoles: "Pemasaran & jualan: Mr Tanah · Pemaju: Putrajaya Holdings (PJH)<br>Pengalaman VR/360: ZENTRA",
       footNote: "Maklumat projek tertakluk kepada pengesahan pemaju.",
@@ -171,6 +235,26 @@ window.TERRA = {
       enqBody: "Ask about available units, current pricing and a viewing appointment at Terra Residences.",
       enqBtn: "WhatsApp Mr Tanah ↗", enqBtnFallback: "Visit Mr Tanah to enquire ↗",
       enqBtnVr: "Explore the virtual tours",
+      // --- Enquiry form ---
+      formHead: "Register your interest",
+      formSub: "Leave your details — we'll contact you with unit information and viewing arrangements.",
+      fNama: "Full name", fNamaPh: "Your name",
+      fWa: "WhatsApp number", fWaPh: "0123456789",
+      fEmel: "Email", fEmelPh: "name@email.com",
+      fNegeri: "State", fPilih: "— select —",
+      fUnit: "Unit of interest",
+      fSumber: "How did you hear about us?",
+      fConsent: "I agree and give consent to <b>Mr Tanah</b> (a ZENTRA brand) to collect, use, process and store my personal data in this form for the purpose of handling my enquiry, information requests and internal administration, in accordance with the <b>Personal Data Protection Act 2010</b>.",
+      fMarketing: "I agree to receive updates, news and property listings from Mr Tanah by email, WhatsApp or phone call.",
+      fHantar: "Submit", fHantarSekarang: "Sending…",
+      fErrNama: "Please enter your name.",
+      fErrWa: "Invalid WhatsApp number (e.g. 0123456789).",
+      fErrEmel: "Invalid email.",
+      fErrConsent: "PDPA consent is required before we can store your details.",
+      fOk: "Thank you! Your request has been received. Reference: {ref}",
+      fOkSub: "We will contact you within 24 hours (office hours).",
+      fBad: "Sorry, submission failed. Please try again or WhatsApp us directly.",
+      fFail: "Could not reach the server. Check your connection and try again.",
       footBrand: "Mr Tanah · A ZENTRA brand",
       footRoles: "Marketing & sales: Mr Tanah · Developer: Putrajaya Holdings (PJH)<br>VR/360 experience: ZENTRA",
       footNote: "Project information is subject to developer confirmation.",
